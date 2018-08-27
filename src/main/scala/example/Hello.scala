@@ -11,9 +11,11 @@ object Hello extends Greeting with App {
   val level1 = Level.L1
   val encoded = level1.asInstanceOf[Level].asJson
   val decoded = decode(encoded.noSpaces)
+  val decodeOverridden = decode("level4".asJson.noSpaces)
 
   println(encoded)
   println(decoded)
+  println(decodeOverridden)
   println(greeting)
 }
 
