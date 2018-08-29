@@ -2,26 +2,23 @@ package example
 
 import io.circe.Decoder
 
-object Hello extends Greeting with App {
+object EnumCodec {
 
   import GenericLevelDerivation._
   import io.circe.syntax._
   import io.circe.parser.decode
 
-  val level1 = Level.L1
-  val encoded = level1.asInstanceOf[Level].asJson
-  val decoded = decode(encoded.noSpaces)
-  val decodeOverridden = decode("level4".asJson.noSpaces)
-
-  println(encoded)
-  println(decoded)
-  println(decodeOverridden)
-  println(greeting)
+  def main(array: Array[String]): Unit = {
+    val level1 = Level.L1
+    val encoded = level1.asInstanceOf[Level].asJson
+    val decoded = decode(encoded.noSpaces)
+    val decodeOverridden = decode("level4".asJson.noSpaces)
+    println(encoded)
+    println(decoded)
+    println(decodeOverridden)
+  }
 }
 
-trait Greeting {
-  lazy val greeting: String = "hello"
-}
 
 sealed abstract class Level(val value: String)
 
@@ -42,9 +39,7 @@ object GenericLevelDerivation {
   import io.circe.{Encoder, Json}
 
   implicit val encodeLevel: Encoder[Level] = Encoder.instance {
-    case l @ L1 => Json.fromString(l.value)
-    case l @ L2 => Json.fromString(l.value)
-    case l @ L3 => Json.fromString(l.value)
+    l: Level => Json.fromString(l.value)
   }
 
   implicit val decodeLevel: Decoder[Level] =
