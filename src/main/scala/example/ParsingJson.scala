@@ -2,7 +2,7 @@ package example
 
 object ParsingJson {
 
-  import io.circe._, io.circe.parser._
+  import io.circe.parser._
 
   def main(array: Array[String]): Unit = {
     val jsonString =
