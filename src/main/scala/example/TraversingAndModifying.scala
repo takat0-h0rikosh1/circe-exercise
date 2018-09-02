@@ -42,5 +42,12 @@ object TraversingAndModifying {
     println(qux)
     println(secondQux)
     println(thirdQux)
+
+    // 変換
+    val reversedNameCursor: ACursor =
+      cursor.downField("name").withFocus(_.mapString(_.reverse))
+    val reversedName: Option[Json] = reversedNameCursor.top
+
+    println(reversedName)
   }
 }
