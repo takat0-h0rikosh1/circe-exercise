@@ -23,6 +23,11 @@ object CustomCodec {
   }
 
   def main(args: Array[String]): Unit = {
+    simple
+
+  }
+
+  def simple: Unit = {
 
     val thing = new Thing("test", 123)
 
@@ -33,5 +38,9 @@ object CustomCodec {
     println(parse(jsonString))
     println(decode[Thing](jsonString))
 
+  }
+
+  def piggyBack: Unit = {
+    import java.time.Instant
   }
 }
