@@ -7,6 +7,7 @@ object EncodingAndDecoding {
 
   def main(array: Array[String]): Unit = {
     val json = List(1,2,3).asJson
+    json.noSpaces
     println(json)
 
     val unit = json.as[List[Int]]
