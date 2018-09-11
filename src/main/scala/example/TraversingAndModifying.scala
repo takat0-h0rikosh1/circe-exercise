@@ -18,10 +18,8 @@ object TraversingAndModifying {
         |    "qux": ["a", "b"]
         |  }
         |}""".stripMargin
-
     val doc: Json = parse(json).getOrElse(Json.Null)
     val cursor: HCursor = doc.hcursor
-
 
     val baz: Decoder.Result[Double] =
       cursor.downField("values").downField("baz").as[Double]
@@ -30,12 +28,14 @@ object TraversingAndModifying {
     val qux: Decoder.Result[Seq[String]] =
       cursor.downField("values").downField("qux").as[Seq[String]]
     val secondQux: Decoder.Result[String] =
-      cursor.downField("values").downField("qux")
-          .downArray.right.as[String]
-
+      cursor.downField("values").downField("qux").downArray.right.as[String]
     val thirdQux: Decoder.Result[String] =
-      cursor.downField("values").downField("qux")
-        .downArray.deleteGoRight.as[String]
+      cursor
+        .downField("values")
+        .downField("qux")
+        .downArray
+        .deleteGoRight
+        .as[String]
 
     println(baz)
     println(baz2)
@@ -43,11 +43,23 @@ object TraversingAndModifying {
     println(secondQux)
     println(thirdQux)
 
-    // 変換
+    // name の値を逆文字列にする
     val reversedNameCursor: ACursor =
-      cursor.downField("name").withFocus(_.mapString(_.reverse))
-    val reversedName: Option[Json] = reversedNameCursor.top
+      cursor
+        .downField("name")
+        .withFocus(_.mapString(_.reverse))
 
-    println(reversedName)
+    // カーソルを一段の階層に上げて、配列 qux の先頭データを削除してカーソルを右に移動
+    val deletedHeadArray  =
+      reversedNameCursor
+        .up
+        .downField("values")
+        .downField("qux")
+        .downArray
+        .deleteGoRight
+
+    val maybeJson = deletedHeadArray.top
+
+    println(maybeJson)
   }
 }

@@ -6,7 +6,7 @@ object EncodingAndDecoding {
   import io.circe.parser.decode
 
   def main(array: Array[String]): Unit = {
-    val json = List(1,2,3).asJson
+    val json = List(1, 2, 3).asJson
     json.noSpaces
     println(json)
 

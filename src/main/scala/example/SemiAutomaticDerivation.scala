@@ -10,7 +10,7 @@ object SemiAutomaticDerivation {
 
   case class Foo(a: Int, b: String, c: Boolean)
   @JsonCodec case class Bar(i: Int, s: String)
-  case class User(id:  Long, firstName: String, lastName: String)
+  case class User(id: Long, firstName: String, lastName: String)
 
   implicit val fooDecoder: Decoder[Foo] = deriveDecoder
   implicit val fooEncoder: Encoder[Foo] = deriveEncoder
@@ -45,6 +45,5 @@ object UserCodec {
     Decoder.forProduct3("id", "first_name", "last_name")(User)
   implicit val encoderUser: Encoder[User] =
     Encoder.forProduct3("id", "first_name", "last_name")(u =>
-      (u.id, u.firstName, u.lastName)
-    )
+      (u.id, u.firstName, u.lastName))
 }
